@@ -511,6 +511,9 @@ app.get('/api/standings/players', async (_req, res) => {
   }
 });
 
+app.get('/', (_req, res) => {
+  res.send('HahnOnam API is running');
+});
 
 /* --------------------------------- Listen ------------------------------- */
 
