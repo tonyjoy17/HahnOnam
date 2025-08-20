@@ -4,7 +4,13 @@ const cors = require('cors');
 const db = require('./db');
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: ['https://hahnonam.netlify.app'],
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  credentials: false
+}));
+
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
@@ -507,6 +513,9 @@ app.get('/api/standings/players', async (_req, res) => {
 
 
 /* --------------------------------- Listen ------------------------------- */
+
+app.listen(PORT, '0.0.0.0', () => console.log(`API on :${PORT}`));
+/*
 app.listen(PORT, () => {
   console.log(`API running on http://localhost:${PORT}`);
-});
+}); */
