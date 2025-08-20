@@ -1,0 +1,174 @@
+<div class="page-heading">
+  HahnOnam 2025
+</div>
+<div class="scoreboard-container" *ngIf="!loading && !error; else stateTpl">
+
+  <!-- Top: Winning Team & Latest MVP -->
+  <div class="top-cards">
+    <mat-card class="card">
+      <mat-card-header class="mat-card-title">
+        <mat-card-title >🏆 Winning Team</mat-card-title>
+        <!-- <mat-card-subtitle>Olympic tiebreak (Gold → Silver → Bronze → Points)</mat-card-subtitle>  -->
+      </mat-card-header>
+      <mat-card-content *ngIf="highlights?.topTeam; else noTopTeam">
+        <div class="big-line">
+          <span class="name">{{ highlights?.topTeam?.teamName }}</span>
+          <span class="points">{{ highlights?.topTeam?.totalPoints }} pts</span>
+        </div>
+        <div class="medal-line">
+          <span>🥇 {{ highlights?.topTeam?.gold }}</span>
+          <span>🥈 {{ highlights?.topTeam?.silver }}</span>
+          <span>🥉 {{ highlights?.topTeam?.bronze }}</span>
+        </div>
+      </mat-card-content>
+      <ng-template #noTopTeam>
+        <div class="placeholder">No team results yet</div>
+      </ng-template>
+    </mat-card>
+
+<mat-card class="card">
+  <mat-card-header class="mat-card-title">
+    <mat-card-title>⭐ Top Individual</mat-card-title>
+    <!-- <mat-card-subtitle>Most points across all individual events</mat-card-subtitle> -->
+  </mat-card-header>
+  <mat-card-content *ngIf="highlights?.topPlayer; else noTopPlayer">
+    <div class="big-line">
+      <span class="name">{{ highlights?.topPlayer?.playerName }}</span>
+      <span class="points">{{ highlights?.topPlayer?.points }} pts</span>
+    </div>
+    <div class="meta">
+      <span>Team: {{ highlights?.topPlayer?.teamName }}</span>
+    </div>
+    <div class="medal-line">
+      <span>🥇 {{ highlights?.topPlayer?.gold }}</span>
+      <span>🥈 {{ highlights?.topPlayer?.silver }}</span>
+      <span>🥉 {{ highlights?.topPlayer?.bronze }}</span>
+    </div>
+  </mat-card-content>
+  <ng-template #noTopPlayer>
+    <div class="placeholder">No individual results yet</div>
+  </ng-template>
+</mat-card>
+
+  </div>
+
+  <!-- Bottom: Detailed Tables -->
+  <div class="tables">
+    <mat-card class="table-card">
+      <mat-card-header><mat-card-title class="teamstanding">Team Standings</mat-card-title></mat-card-header>
+      <div class="table-wrap">
+        <table mat-table [dataSource]="teamRows" class="mat-elevation-z1">
+          <ng-container matColumnDef="rank">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let r">{{ r.rank }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="teamName">
+            <th mat-header-cell *matHeaderCellDef>Team</th>
+            <td mat-cell *matCellDef="let r">{{ r.teamName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="gold">
+            <th mat-header-cell *matHeaderCellDef>🥇</th>
+            <td mat-cell *matCellDef="let r">{{ r.gold }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="silver">
+            <th mat-header-cell *matHeaderCellDef>🥈</th>
+            <td mat-cell *matCellDef="let r">{{ r.silver }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="bronze">
+            <th mat-header-cell *matHeaderCellDef>🥉</th>
+            <td mat-cell *matCellDef="let r">{{ r.bronze }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalPoints">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let r">{{ r.totalPoints }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="teamDisplayed"></tr>
+          <tr mat-row *matRowDef="let row; columns: teamDisplayed;"></tr>
+        </table>
+      </div>
+    </mat-card>
+
+    <mat-card class="table-card">
+      <mat-card-header ><mat-card-title class="playerstanding">Individual Standings</mat-card-title></mat-card-header>
+      <div class="table-wrap">
+        <table mat-table [dataSource]="playerRows" class="mat-elevation-z1">
+          <ng-container matColumnDef="rank">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let r">{{ r.rank }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="playerName">
+            <th mat-header-cell *matHeaderCellDef>Player</th>
+            <td mat-cell *matCellDef="let r">{{ r.playerName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="teamName">
+            <th mat-header-cell *matHeaderCellDef>Team</th>
+            <td mat-cell *matCellDef="let r">{{ r.teamName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="gold">
+            <th mat-header-cell *matHeaderCellDef>🥇</th>
+            <td mat-cell *matCellDef="let r">{{ r.gold }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="silver">
+            <th mat-header-cell *matHeaderCellDef>🥈</th>
+            <td mat-cell *matCellDef="let r">{{ r.silver }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="bronze">
+            <th mat-header-cell *matHeaderCellDef>🥉</th>
+            <td mat-cell *matCellDef="let r">{{ r.bronze }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalPoints">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let r">{{ r.totalPoints }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="playerDisplayed"></tr>
+          <tr mat-row *matRowDef="let row; columns: playerDisplayed;"></tr>
+        </table>
+      </div>
+    </mat-card>
+  </div>
+
+   <!-- <mat-card class="table-card">
+  <mat-card-header>
+    <mat-card-title>Players by Team</mat-card-title>
+  </mat-card-header>
+
+  <div class="table-wrap" *ngFor="let teamName of (playersByTeam | keyvalue)">
+    <h3 class="team-heading">{{ teamName.key }}</h3>
+    <table mat-table [dataSource]="teamName.value" class="mat-elevation-z1">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let p">{{ p.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Player</th>
+        <td mat-cell *matCellDef="let p">{{ p.name }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['id','name']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['id','name'];"></tr>
+    </table>
+  </div>
+</mat-card>  -->
+</div>
+
+
+ 
+<ng-template #stateTpl>
+  <div class="state" *ngIf="loading">Loading…</div>
+  <div class="state error" *ngIf="!loading && error">{{ error }}</div>
+</ng-template>

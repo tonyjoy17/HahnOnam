@@ -1,0 +1,53 @@
+.scoreboard-container { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
+.top-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.card { border-radius: 12px; }
+.big-line { display: flex; justify-content: space-between; align-items: baseline; margin: 8px 0 4px; }
+.big-line .name { font-size: 1.25rem; font-weight: 600; }
+.big-line .points { font-size: 1.1rem; font-weight: 600; }
+.medal-line { display: flex; gap: 12px; opacity: 0.85; }
+.meta { display: flex; gap: 12px; opacity: 0.85; margin-top: 4px; }
+.placeholder { opacity: 0.7; }
+.tables { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 16px; }
+.table-card { padding-bottom: 8px; }
+.table-wrap { overflow: auto; }
+.state { text-align: center; padding: 48px 0; }
+.state.error { color: #b00020; }
+@media (max-width: 768px) {
+  .top-cards { grid-template-columns: 1fr; }
+}
+
+.page-heading {
+      text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    padding: 40px;
+    background-color: #0f7b9d;
+    color: white;
+}
+
+.teamstanding{
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.playerstanding{
+   font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.mat-card-title {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.team-heading {
+  margin: 12px 0 8px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-align: left;
+}
+.table-wrap {
+  margin-bottom: 16px;
+}

@@ -1,0 +1,106 @@
+<mat-card class="max-w-3xl mx-auto my-8 p-2">
+  <h2 class="text-xl font-semibold mb-2">Enter Results</h2>
+
+  <form [formGroup]="form" class="grid gap-4">
+    <!-- Event -->
+    <mat-form-field appearance="fill">
+      <mat-label>Event</mat-label>
+      <!-- store the whole object as value -->
+      <mat-select formControlName="event">
+        <mat-option *ngFor="let e of events" [value]="e">
+          {{ e.name }} — {{ e.type | titlecase }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('event')?.hasError('required')">Event is required</mat-error>
+    </mat-form-field>
+
+    <mat-divider></mat-divider>
+
+    <!-- TEAM EVENT -->
+    <ng-container *ngIf="isTeamEvent">
+      <div class="grid md:grid-cols-2 gap-4">
+        <mat-form-field appearance="fill">
+          <mat-label>Winner (Team)</mat-label>
+          <mat-select formControlName="winnerTeamId">
+            <mat-option *ngFor="let t of teams" [value]="t.id">{{ t.name }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('winnerTeamId')?.hasError('required')">Winner team required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Second (Team)</mat-label>
+          <mat-select formControlName="secondTeamId">
+            <mat-option *ngFor="let t of teams" [value]="t.id">{{ t.name }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('secondTeamId')?.hasError('required')">Second team required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="text-sm text-amber-700" *ngIf="form.errors?.['notDistinct']">
+        Winner and Second team must be different.
+      </div>
+    </ng-container>
+
+    <!-- INDIVIDUAL EVENT -->
+    <ng-container *ngIf="isIndividualEvent">
+      <div class="grid md:grid-cols-3 gap-4">
+        <mat-form-field appearance="fill">
+          <mat-label>1st Place (Player)</mat-label>
+          <mat-select formControlName="firstPlayerId">
+            <ng-container *ngFor="let team of teams">
+              <mat-optgroup [label]="team.name">
+                <mat-option *ngFor="let p of (playersByTeam.get(team.id) || [])" [value]="p.id">
+                  {{ p.name }}
+                </mat-option>
+              </mat-optgroup>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="form.get('firstPlayerId')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>2nd Place (Player)</mat-label>
+          <mat-select formControlName="secondPlayerId">
+            <ng-container *ngFor="let team of teams">
+              <mat-optgroup [label]="team.name">
+                <mat-option *ngFor="let p of (playersByTeam.get(team.id) || [])" [value]="p.id">
+                  {{ p.name }}
+                </mat-option>
+              </mat-optgroup>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="form.get('secondPlayerId')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>3rd Place (Player)</mat-label>
+          <mat-select formControlName="thirdPlayerId">
+            <ng-container *ngFor="let team of teams">
+              <mat-optgroup [label]="team.name">
+                <mat-option *ngFor="let p of (playersByTeam.get(team.id) || [])" [value]="p.id">
+                  {{ p.name }}
+                </mat-option>
+              </mat-optgroup>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="form.get('thirdPlayerId')?.hasError('required')">Required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="text-sm text-amber-700" *ngIf="form.errors?.['notDistinct']">
+        1st, 2nd, and 3rd must be different players.
+      </div>
+
+      <div class="text-xs text-slate-500">
+        MVP will be recorded as the 1st place player automatically.
+      </div>
+    </ng-container>
+
+    <div class="flex gap-3 items-center">
+      <button mat-raised-button color="primary" (click)="submit()" [disabled]="loading">Submit</button>
+      <span *ngIf="loading">Saving…</span>
+      <span class="text-green-700" *ngIf="submitState==='success'">Saved!</span>
+      <span class="text-red-700" *ngIf="submitState==='error'">{{ errorMsg }}</span>
+    </div>
+  </form>
+</mat-card>
