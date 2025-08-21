@@ -333,7 +333,7 @@ app.get('/api/standings/ranked', async (_req, res) => {
         tm.bronze,
         ts.total_points AS "totalPoints",
         DENSE_RANK() OVER (
-          ORDER BY tm.gold DESC, tm.silver DESC, tm.bronze DESC, ts.total_points DESC, tm.team_name ASC
+          ORDER BY ts.total_points DESC, tm.gold DESC, tm.silver DESC, tm.bronze DESC, tm.team_name ASC
         ) AS rank
       FROM team_medals tm
       JOIN team_standings ts ON ts.team_id = tm.team_id
