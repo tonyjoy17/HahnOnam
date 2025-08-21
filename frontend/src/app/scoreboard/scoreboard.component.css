@@ -1,53 +1,54 @@
-.scoreboard-container { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
-.top-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.card { border-radius: 12px; }
-.big-line { display: flex; justify-content: space-between; align-items: baseline; margin: 8px 0 4px; }
-.big-line .name { font-size: 1.25rem; font-weight: 600; }
-.big-line .points { font-size: 1.1rem; font-weight: 600; }
-.medal-line { display: flex; gap: 12px; opacity: 0.85; }
-.meta { display: flex; gap: 12px; opacity: 0.85; margin-top: 4px; }
+.scoreboard-container { max-width: 1200px; margin: 24px auto; padding: 0 16px; overflow-x: hidden; }
+
+/* prevent the two cards from creating horizontal scroll */
+.top-cards {
+  display: grid;
+  /* use minmax(0,1fr) to allow the grid items to shrink within container */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.card { border-radius: 12px; max-width: 100%; overflow: hidden; }
+
+.big-line { display: flex; justify-content: space-between; align-items: baseline; margin: 8px 0 4px; gap: 8px; }
+.big-line .name { font-size: 1.25rem; font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.big-line .points { font-size: 1.1rem; font-weight: 600; flex-shrink: 0; }
+
+.medal-line { display: flex; gap: 12px; opacity: 0.85; flex-wrap: wrap; }
+.meta { display: flex; gap: 12px; opacity: 0.85; margin-top: 4px; flex-wrap: wrap; }
 .placeholder { opacity: 0.7; }
+
 .tables { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 16px; }
-.table-card { padding-bottom: 8px; }
-.table-wrap { overflow: auto; }
+.table-card { padding-bottom: 8px; max-width: 100%; }
+.table-wrap { overflow-x: auto; width: 100%; } /* only tables can scroll horizontally */
 .state { text-align: center; padding: 48px 0; }
 .state.error { color: #b00020; }
+
 @media (max-width: 768px) {
   .top-cards { grid-template-columns: 1fr; }
 }
 
 .page-heading {
-      text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 0;
-    padding: 40px;
-    background-color: #0f7b9d;
-    color: white;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 40px;
+  background-color: #0f7b9d;
+  color: white;
 }
 
-.teamstanding{
-  font-weight: 600;
-  margin-bottom: 15px;
-}
+.teamstanding{ font-weight: 600; margin-bottom: 15px; }
+.playerstanding{ font-weight: 600; margin-bottom: 15px; }
 
-.playerstanding{
-   font-weight: 600;
-  margin-bottom: 15px;
-}
-
-.mat-card-title {
+/* ✅ center titles only in the top cards (don’t target the global Material class) */
+.top-card-header mat-card-title {
   display: block;
   text-align: center;
   width: 100%;
 }
 
-.team-heading {
-  margin: 12px 0 8px;
-  font-weight: bold;
-  font-size: 1.2rem;
-  text-align: left;
-}
-.table-wrap {
-  margin-bottom: 16px;
-}
+/* remove the global rule that was affecting layout */
+ /* .mat-card-title { display:block; text-align:center; width:100%; }  <- delete this */
+
+.team-heading { margin: 12px 0 8px; font-weight: bold; font-size: 1.2rem; text-align: left; }

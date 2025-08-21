@@ -1,13 +1,15 @@
 <div class="page-heading">
   HahnOnam 2025
 </div>
+
 <div class="scoreboard-container" *ngIf="!loading && !error; else stateTpl">
 
-  <!-- Top: Winning Team & Latest MVP -->
+  <!-- Top: Winning Team & Top Individual -->
   <div class="top-cards">
     <mat-card class="card">
-      <mat-card-header class="mat-card-title">
-        <mat-card-title >🏆 Winning Team</mat-card-title>
+      <!-- CHANGED: use top-card-header (NOT class="mat-card-title") -->
+      <mat-card-header class="top-card-header">
+        <mat-card-title>🏆 Winning Team</mat-card-title>
         <!-- <mat-card-subtitle>Olympic tiebreak (Gold → Silver → Bronze → Points)</mat-card-subtitle>  -->
       </mat-card-header>
       <mat-card-content *ngIf="highlights?.topTeam; else noTopTeam">
@@ -26,30 +28,30 @@
       </ng-template>
     </mat-card>
 
-<mat-card class="card">
-  <mat-card-header class="mat-card-title">
-    <mat-card-title>⭐ Top Individual</mat-card-title>
-    <!-- <mat-card-subtitle>Most points across all individual events</mat-card-subtitle> -->
-  </mat-card-header>
-  <mat-card-content *ngIf="highlights?.topPlayer; else noTopPlayer">
-    <div class="big-line">
-      <span class="name">{{ highlights?.topPlayer?.playerName }}</span>
-      <span class="points">{{ highlights?.topPlayer?.points }} pts</span>
-    </div>
-    <div class="meta">
-      <span>Team: {{ highlights?.topPlayer?.teamName }}</span>
-    </div>
-    <div class="medal-line">
-      <span>🥇 {{ highlights?.topPlayer?.gold }}</span>
-      <span>🥈 {{ highlights?.topPlayer?.silver }}</span>
-      <span>🥉 {{ highlights?.topPlayer?.bronze }}</span>
-    </div>
-  </mat-card-content>
-  <ng-template #noTopPlayer>
-    <div class="placeholder">No individual results yet</div>
-  </ng-template>
-</mat-card>
-
+    <mat-card class="card">
+      <!-- CHANGED: use top-card-header -->
+      <mat-card-header class="top-card-header">
+        <mat-card-title>⭐ Top Individual</mat-card-title>
+        <!-- <mat-card-subtitle>Most points across all individual events</mat-card-subtitle> -->
+      </mat-card-header>
+      <mat-card-content *ngIf="highlights?.topPlayer; else noTopPlayer">
+        <div class="big-line">
+          <span class="name">{{ highlights?.topPlayer?.playerName }}</span>
+          <span class="points">{{ highlights?.topPlayer?.points }} pts</span>
+        </div>
+        <div class="meta">
+          <span>Team: {{ highlights?.topPlayer?.teamName }}</span>
+        </div>
+        <div class="medal-line">
+          <span>🥇 {{ highlights?.topPlayer?.gold }}</span>
+          <span>🥈 {{ highlights?.topPlayer?.silver }}</span>
+          <span>🥉 {{ highlights?.topPlayer?.bronze }}</span>
+        </div>
+      </mat-card-content>
+      <ng-template #noTopPlayer>
+        <div class="placeholder">No individual results yet</div>
+      </ng-template>
+    </mat-card>
   </div>
 
   <!-- Bottom: Detailed Tables -->
@@ -139,35 +141,8 @@
       </div>
     </mat-card>
   </div>
-
-   <!-- <mat-card class="table-card">
-  <mat-card-header>
-    <mat-card-title>Players by Team</mat-card-title>
-  </mat-card-header>
-
-  <div class="table-wrap" *ngFor="let teamName of (playersByTeam | keyvalue)">
-    <h3 class="team-heading">{{ teamName.key }}</h3>
-    <table mat-table [dataSource]="teamName.value" class="mat-elevation-z1">
-
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>#</th>
-        <td mat-cell *matCellDef="let p">{{ p.id }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Player</th>
-        <td mat-cell *matCellDef="let p">{{ p.name }}</td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="['id','name']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['id','name'];"></tr>
-    </table>
-  </div>
-</mat-card>  -->
 </div>
 
-
- 
 <ng-template #stateTpl>
   <div class="state" *ngIf="loading">Loading…</div>
   <div class="state error" *ngIf="!loading && error">{{ error }}</div>
