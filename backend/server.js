@@ -408,7 +408,7 @@ app.get('/api/highlights', async (_req, res) => {
              ts.total_points AS "totalPoints"
       FROM team_standings ts
       JOIN team_medals tm ON tm.team_id = ts.team_id
-      ORDER BY tm.gold DESC, tm.silver DESC, tm.bronze DESC, ts.total_points DESC, ts.team_name ASC
+      ORDER BY ts.total_points DESC, ts.team_name ASC
       LIMIT 1;
     `;
 
