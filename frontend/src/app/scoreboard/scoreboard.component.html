@@ -100,7 +100,8 @@
     <mat-card class="table-card">
       <mat-card-header ><mat-card-title class="playerstanding">Individual Standings</mat-card-title></mat-card-header>
       <div class="table-wrap">
-        <table mat-table [dataSource]="playerRows" class="mat-elevation-z1">
+        <table mat-table [dataSource]="playerRows" class="mat-elevation-z1" style="
+    overflow-x: auto;">
           <ng-container matColumnDef="rank">
             <th mat-header-cell *matHeaderCellDef>#</th>
             <td mat-cell *matCellDef="let r">{{ r.rank }}</td>
