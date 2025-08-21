@@ -1,141 +1,53 @@
-/* Main container */
-.scoreboard-container {
-  max-width: 1200px;
-  margin: 24px auto;
-  padding: 0 16px;
-  overflow-x: hidden; /* Don't remove this */
-}
-
-/* Winning Team + Top Individual */
-.top-cards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* ensures no overflow */
-  gap: 16px;
-}
-
-.card {
-  border-radius: 12px;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-/* Header lines */
-.big-line {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin: 8px 0 4px;
-  gap: 8px;
-}
-
-.big-line .name {
-  font-size: 1.25rem;
-  font-weight: 600;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.big-line .points {
-  font-size: 1.1rem;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-.medal-line {
-  display: flex;
-  gap: 12px;
-  opacity: 0.85;
-  flex-wrap: wrap;
-}
-
-.meta {
-  display: flex;
-  gap: 12px;
-  opacity: 0.85;
-  margin-top: 4px;
-  flex-wrap: wrap;
-}
-
-.placeholder {
-  opacity: 0.7;
-}
-
-/* Tables container */
-.tables {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  margin-top: 16px;
-}
-
-.table-card {
-  padding-bottom: 8px;
-  max-width: 100%;
-}
-
-/* ✅ Make tables horizontally scrollable on mobile */
-.table-wrap {
-  overflow-x: auto;
-  width: 100%;
-  -webkit-overflow-scrolling: touch;
-}
-
-.table-wrap table {
-  width: max-content;
-  min-width: 600px; /* Adjust based on your column count */
-}
-
-/* Loading/Error state */
-.state {
-  text-align: center;
-  padding: 48px 0;
-}
-
-.state.error {
-  color: #b00020;
-}
-
-/* Responsive: Stack top cards vertically on mobile */
+.scoreboard-container { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
+.top-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.card { border-radius: 12px; }
+.big-line { display: flex; justify-content: space-between; align-items: baseline; margin: 8px 0 4px; }
+.big-line .name { font-size: 1.25rem; font-weight: 600; }
+.big-line .points { font-size: 1.1rem; font-weight: 600; }
+.medal-line { display: flex; gap: 12px; opacity: 0.85; }
+.meta { display: flex; gap: 12px; opacity: 0.85; margin-top: 4px; }
+.placeholder { opacity: 0.7; }
+.tables { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 16px; }
+.table-card { padding-bottom: 8px; }
+.table-wrap { overflow: auto; }
+.state { text-align: center; padding: 48px 0; }
+.state.error { color: #b00020; }
 @media (max-width: 768px) {
-  .top-cards {
-    grid-template-columns: 1fr;
-  }
+  .top-cards { grid-template-columns: 1fr; }
 }
 
-/* Page heading */
 .page-heading {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 0;
-  padding: 40px;
-  background-color: #0f7b9d;
-  color: white;
+      text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    padding: 40px;
+    background-color: #0f7b9d;
+    color: white;
 }
 
-/* Section titles */
-.teamstanding,
-.playerstanding {
+.teamstanding{
   font-weight: 600;
   margin-bottom: 15px;
 }
 
-/* ✅ Fix center only in top cards */
-.top-card-header mat-card-title {
+.playerstanding{
+   font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.mat-card-title {
   display: block;
   text-align: center;
   width: 100%;
 }
 
-/* Remove buggy global style (do NOT use this) */
-/* .mat-card-title { display:block; text-align:center; width:100%; } */
-
-/* For player-by-team table if needed later */
 .team-heading {
   margin: 12px 0 8px;
   font-weight: bold;
   font-size: 1.2rem;
   text-align: left;
+}
+.table-wrap {
+  margin-bottom: 16px;
 }
