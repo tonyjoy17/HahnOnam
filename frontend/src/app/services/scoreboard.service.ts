@@ -47,6 +47,15 @@ export type Player = {
   teamId: number;
 };
 
+export type EventResult = {
+  eventId: number;
+  eventName: string;
+  isTeamGame: boolean;
+  firstPlace: string;
+  secondPlace: string;
+  thirdPlace: string | null;
+};
+
 @Injectable({ providedIn: 'root' })
 export class ScoreboardService {
 
@@ -67,4 +76,10 @@ export class ScoreboardService {
   getPlayers() {
   return this.http.get<Player[]>(`${this.baseUrl}/players`);
 }
+
+
+getEventResults() {
+  return this.http.get<EventResult[]>(`${this.baseUrl}/event-results`);
+}
+
 }

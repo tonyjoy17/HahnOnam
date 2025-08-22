@@ -4,7 +4,8 @@ import {
   HighlightsResponse,
   TeamRankRow,
   PlayerRankRow,
-  Player
+  Player,
+  EventResult
 } from '../services/scoreboard.service';
 import { firstValueFrom } from 'rxjs';
 
@@ -20,40 +21,38 @@ export class ScoreboardComponent implements OnInit {
 
   highlights: HighlightsResponse | null = null;
 
-  // tables
   teamRows: TeamRankRow[] = [];
   playerRows: PlayerRankRow[] = [];
+  resultRows: EventResult[] = [];
 
-  // players grouped by team name
   playersByTeam: { [teamName: string]: Player[] } = {};
 
-  // displayed columns
   teamDisplayed   = ['rank','teamName','gold','silver','bronze','totalPoints'];
   playerDisplayed = ['rank','playerName','teamName','gold','silver','bronze','totalPoints'];
+  resultDisplayed = ['eventName', 'firstPlace', 'secondPlace', 'thirdPlace'];
+ 
 
   constructor(private svc: ScoreboardService) {}
 
   async ngOnInit(): Promise<void> {
     try {
-      // fetch everything in parallel
-      const [highlights, teamRanked, playerRanked, players] = await Promise.all([
+      const [highlights, teamRanked, playerRanked, players, eventResults] = await Promise.all([
         firstValueFrom(this.svc.getHighlights()),
         firstValueFrom(this.svc.getTeamRanked()),
         firstValueFrom(this.svc.getPlayerRanked()),
         firstValueFrom(this.svc.getPlayers()),
+        firstValueFrom(this.svc.getEventResults())
       ]);
 
-      // assign core data
       this.highlights = highlights ?? null;
       this.teamRows   = teamRanked  ?? [];
       this.playerRows = playerRanked ?? [];
+      this.resultRows = (eventResults ?? []);
 
-      // build a quick lookup: teamId -> teamName (from ranked teams we already show)
       const teamNameById = new Map<number, string>(
         this.teamRows.map(t => [t.teamId, t.teamName])
       );
 
-      // group players by team name
       const groups: { [teamName: string]: Player[] } = {};
       (players ?? []).forEach((p: Player) => {
         const teamName = teamNameById.get(p.teamId) ?? 'Unknown Team';
@@ -61,7 +60,6 @@ export class ScoreboardComponent implements OnInit {
         groups[teamName].push(p);
       });
 
-      // optional: sort players alphabetically within each team
       Object.values(groups).forEach(list => list.sort((a, b) => a.name.localeCompare(b.name)));
 
       this.playersByTeam = groups;
