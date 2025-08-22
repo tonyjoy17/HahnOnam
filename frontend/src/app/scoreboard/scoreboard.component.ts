@@ -28,7 +28,7 @@ export class ScoreboardComponent implements OnInit {
   playersByTeam: { [teamName: string]: Player[] } = {};
 
   teamDisplayed   = ['rank','teamName','gold','silver','bronze','totalPoints'];
-  playerDisplayed = ['rank','playerName','teamName','gold','silver','bronze','totalPoints'];
+  playerDisplayed = ['rank','playerName','gold','silver','bronze','totalPoints'];
   resultDisplayed = ['eventName', 'firstPlace', 'secondPlace', 'thirdPlace'];
  
 
