@@ -9,7 +9,17 @@ app.use(cors({
   origin: ['https://hahnonam.netlify.app'],
   methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
   credentials: false
-}));
+})); 
+
+/*
+app.use(cors({
+  origin: ['http://localhost:4200', 'https://hahnonam.netlify.app'],
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false
+})); */
+
+
 
 app.use(express.json());
 
@@ -514,6 +524,38 @@ app.get('/api/standings/players', async (_req, res) => {
 app.get('/', (_req, res) => {
   res.send('HahnOnam API is running');
 });
+
+app.get('/api/event-results', async (_req, res) => {
+  try {
+    const { rows } = await db.query(`
+      SELECT
+        e.id AS "eventId",
+        e.name AS "eventName",
+        e.is_team_game AS "isTeamGame",
+        COALESCE(p1.name, t1.name) AS "firstPlace",
+        COALESCE(p2.name, t2.name) AS "secondPlace",
+        CASE WHEN e.is_team_game THEN NULL ELSE p3.name END AS "thirdPlace"
+      FROM events e
+      LEFT JOIN results_individual r1 ON r1.event_id = e.id AND r1.position = 1
+      LEFT JOIN players p1 ON p1.id = r1.player_id
+      LEFT JOIN results_individual r2 ON r2.event_id = e.id AND r2.position = 2
+      LEFT JOIN players p2 ON p2.id = r2.player_id
+      LEFT JOIN results_individual r3 ON r3.event_id = e.id AND r3.position = 3
+      LEFT JOIN players p3 ON p3.id = r3.player_id
+      LEFT JOIN results_team rt1 ON rt1.event_id = e.id AND rt1.position = 1
+      LEFT JOIN teams t1 ON t1.id = rt1.team_id
+      LEFT JOIN results_team rt2 ON rt2.event_id = e.id AND rt2.position = 2
+      LEFT JOIN teams t2 ON t2.id = rt2.team_id
+      WHERE COALESCE(p1.name, t1.name) IS NOT NULL
+      ORDER BY e.id;
+    `);
+    res.json(rows);
+  } catch (err) {
+    console.error('GET /api/event-results failed', err);
+    res.status(500).json({ message: 'Failed to fetch event results' });
+  }
+});
+
 
 /* --------------------------------- Listen ------------------------------- */
 
