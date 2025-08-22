@@ -54,7 +54,7 @@
 
 @media screen and (max-width: 500px) {
   .table-card {
-    width: 450px; /* full viewport width */
+    width: 400px; /* full viewport width */
     margin-left: 0;
     margin-right: 0;
     border-radius: 0;
