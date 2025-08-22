@@ -48,21 +48,7 @@
   font-size: 1.2rem;
   text-align: left;
 }
-
-.tables {
-  padding: 0 16px;
-  width: 100%;
-}
-
-.table-card {
-  margin-top: 16px;
-  border-radius: 12px;
-}
-
 .table-wrap {
-  width: 100%;
-  overflow-x: auto;
   margin-bottom: 16px;
 }
-
 
